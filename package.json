@@ -1,0 +1,49 @@
+{
+  "name": "gl-phong-material",
+  "version": "1.0.3",
+  "description": "phong material for 3d scenes using stack.gl",
+  "main": "index.js",
+  "scripts": {
+    "test": "browserify test.js | testron | tap-spec",
+    "build": "browserify demo/index.js -o demo/bundle.js",
+    "deploy": "surge demo gl-phong-material.surge.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clementlevasseur/gl-phong-material.git"
+  },
+  "keywords": [
+    "phong",
+    "3d",
+    "shader",
+    "webgl",
+    "stackgl"
+  ],
+  "author": "clementlevasseur",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clementlevasseur/gl-phong-material/issues"
+  },
+  "browserify": {
+    "transform": [
+      "glslify"
+    ]
+  },
+  "homepage": "https://github.com/clementlevasseur/gl-phong-material#readme",
+  "dependencies": {
+    "glsl-light": "^2.0.0",
+    "glsl-light-attenuation": "^2.0.0",
+    "glsl-light-direction": "^2.0.0",
+    "glsl-diffuse-oren-nayar": "^1.0.2",
+    "glslify": "^5.0.2"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "gl-material-demo": "^1.0.1",
+    "gl-material-test": "^1.0.1",
+    "icosphere": "^1.0.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.5.1",
+    "testron": "^1.2.0"
+  }
+}
