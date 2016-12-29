@@ -10,32 +10,41 @@ uniform vec3 eye;
 #pragma glslify: orenn = require('glsl-diffuse-oren-nayar')
 
 struct Style {
-  vec3 emissive;
   vec3 ambient;
   vec3 diffuse;
-  float roughness;
-  float albedo;
+  vec3 specular;
+  float shininess;
 };
 
 uniform Light lighting[LIGHTCOUNT];
 uniform Style style;
 
 void main() {
-  vec3 viewpoint = eye - vposition;
-  vec3 result = vec3(0.0);
+    vec3 N = normalize(vnormal);
+    vec3 result = vec3(0.0);
 
   for (int i = 0; i < LIGHTCOUNT; ++i) {
     if (lighting[i].visible) {
-      vec3 dir = direction(lighting[i], vposition);
-      float attn = attenuation(lighting[i], dir);
-      float diffuse = orenn(normalize(dir), normalize(viewpoint), vnormal, style.roughness, style.albedo);
-      diffuse = ( diffuse < 0.0 || 0.0 < diffuse || diffuse == 0.0 ) ? diffuse : 0.0;
-      vec3 ambient = lighting[i].ambient * style.ambient;
-      vec3 combined = diffuse * style.diffuse;
-      result += ambient + attn * combined * lighting[i].color * lighting[i].intensity;
+      vec3 L = normalize(lighting[i].position.xyz - vposition);
+      vec3 E = normalize(-vposition); // we are in Eye Coordinates, so EyePos is (0,0,0)
+      vec3 R = normalize(-reflect(L,N));
+
+      //calculate Ambient Term:
+      vec3 Iamb = style.ambient;
+      //calculate Diffuse Term:
+      vec3 Idiff = style.diffuse * max(dot(N,L), 0.0);
+      Idiff = clamp(Idiff, 0.0, 1.0);
+
+      // calculate Specular Term:
+      vec3 Ispec = style.specular
+             * pow(max(dot(R,E),0.0),0.3*style.shininess);
+      Ispec = clamp(Ispec, 0.0, 1.0);
+
+      result += Iamb + Idiff + Ispec;
+
     }
   }
-  result = result + style.emissive;
+  result = result;
 
   gl_FragColor = vec4(result, 1);
 }

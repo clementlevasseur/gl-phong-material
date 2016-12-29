@@ -1,13 +1,10 @@
 {
   "name": "gl-phong-material",
-  "version": "1.0.3",
-  "description": "phong material for 3d scenes using stack.gl",
+  "version": "1.0.0",
+  "description": "Phong material for 3d scenes using stack.gl",
   "main": "index.js",
   "scripts": {
-    "test": "browserify test.js | testron | tap-spec",
-    "build": "browserify demo/index.js -o demo/bundle.js",
-    "deploy": "surge demo gl-phong-material.surge.sh"
-  },
+    "test": "echo 'no test\n'"},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clementlevasseur/gl-phong-material.git"
@@ -41,9 +38,5 @@
     "browserify": "^13.0.0",
     "gl-material-demo": "^1.0.1",
     "gl-material-test": "^1.0.1",
-    "icosphere": "^1.0.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.5.1",
-    "testron": "^1.2.0"
   }
 }
